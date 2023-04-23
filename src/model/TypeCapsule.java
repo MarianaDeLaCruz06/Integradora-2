@@ -3,7 +3,7 @@ package model;
 /**
  * This enum represents the type of a capsule.
 */
-public enum Type {
+public enum TypeCapsule {
     TECHNICAL, 
     MANAGEMENT, 
     DOMAIN, 

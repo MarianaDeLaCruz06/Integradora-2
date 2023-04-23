@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 public class Stage {
 
     
-    private Stages TypeStage;
+    private TypeStages TypeStage;
     private Calendar startDatePlanned;
     private Calendar endDatePlanned;
     private Calendar startDateReal;
@@ -18,7 +18,16 @@ public class Stage {
 
     private DateFormat formatter;
     
-    public Stage(Stages TypeStage, Calendar startDatePlanned, Calendar endDatePlanned, Calendar startDateReal, Calendar endDateReal, boolean statusStage) {
+    /**
+     * The constructor for the stage class
+     * @param TypeStage Type of the stage (e.g. planning, execution, monitoring, evaluation)
+     * @param startDatePlanned Planned start date for the stage
+     * @param endDatePlanned Planned end date for the stage
+     * @param startDateReal Real start date for the stage
+     * @param endDateReal Real end date for the stage
+     * @param statusStage  Status of the stage (true if completed, false if not completed)
+     */
+    public Stage(TypeStages TypeStage, Calendar startDatePlanned, Calendar endDatePlanned, Calendar startDateReal, Calendar endDateReal, boolean statusStage) {
         
         this.formatter = new SimpleDateFormat("dd/MM/yyyy");
         
@@ -28,18 +37,22 @@ public class Stage {
         this.startDateReal = startDateReal;
         this.endDateReal = endDateReal;
         this.statusStage = statusStage;
-        this.listOfCapsules = new Capsule[50];
+        
+        listOfCapsules = new Capsule[50];
 
-        testCases();
     }
     
     // getters and setters
 
-    public Stages getTypeStage() {
+    public Capsule[] getCapsules(){
+        return  listOfCapsules;
+    }
+
+    public TypeStages getTypeStage() {
         return TypeStage;
     }
 
-    public void setTypeStage(Stages TypeStage) {
+    public void setTypeStage(TypeStages TypeStage) {
         this.TypeStage = TypeStage;
     }
 
@@ -99,14 +112,22 @@ public class Stage {
         this.statusStage=StatusStage;
     } 
 
+    /**
+     * in a message shows certain things about the stage
+     * @return the message
+     */
     public String toStringStage(){
         String msg = "";
 
-        msg = "\n Stage" + TypeStage + "\n Date Start Planned" + getStartDateFormated() + "\n Date End Planned" + getEndDateFormated() + "\n Status of stage" + statusStage;
+        msg = "\n Stage: " + TypeStage + "\n Date Start Planned: " + getStartDateFormated() + "\n Date End Planned: " + getEndDateFormated() + "\n Status of stage: " + statusStage+"\n";
     
         return msg;
     }
  
+    /**
+     * shows certain of the things of the stage mainly the actual dates
+     * @return the message
+     */
     public String toStringStageReal(){
 		String msg = "";
 
@@ -115,47 +136,24 @@ public class Stage {
         return msg;
 	}
 
-    public void testCases() {
-		
-		listOfCapsules[0] = new Capsule("A001", "Gestion de repositorios", Type.TECHNICAL, "GitHub es una herramienta util");
-		listOfCapsules[1] = new Capsule("A002", "Gestion de equipos", Type.EXPERIENCES, "Es importante definir responsabilidades claras");
-	}		
-/** 
-	public boolean createStage(Stages TypeStage, Calendar startDatePlanned, Calendar endDatePlanned, Calendar startDateReal, Calendar endDateReal, StatusStage StatusStage){
-
-        Stage newStage = new Stage(TypeStage, startDatePlanned, endDatePlanned, startDateReal, endDateReal, StatusStage);
-
-        for(int i=0; i <stages.length; i++){
-
-			if(stages[i] == null){
-
-				stages[i] = newStage;
-				return true;
-			}
-		}
-        
-        return false;
-
-    }
-	*/
-	
-
 	/**
 	* Method that registers a new capsule with the given parameters.
 	* @param id the id of the capsule
 	* @param description the description of the capsule
 	* @param type the type of the capsule (Technical or Experiences)
+    * @param colabName The collaborator name 
+    * @param jobTitle the position of the collaborator
 	* @param lessonLearned the lesson learned from the capsule
 	* @return true if the capsule is successfully registered, false otherwise
 	*/
-    public boolean registerCapsule(String id, String description, String type, String lessonLearned) {
+    public boolean registerCapsule(String id, String description, String type,String colabName, String jobTitle, String lessonLearned) {
         
-		Type typeN = Type.TECHNICAL;
+		TypeCapsule typeN = TypeCapsule.TECHNICAL;
 		if(type.equalsIgnoreCase("Technical")){
-			typeN = Type.EXPERIENCES;
+			typeN = TypeCapsule.EXPERIENCES;
 		}
 		
-		Capsule newCapsule = new Capsule(id, description, typeN, lessonLearned);
+		Capsule newCapsule = new Capsule(id, description, typeN, colabName, jobTitle,  lessonLearned);
 
         for(int i = 0; i<listOfCapsules.length; i++){
 
@@ -252,6 +250,17 @@ public class Stage {
 
 	}
 
+    /**
+     * Edits a project stage by setting its planned and real start dates.
+     * @param stageOption The index of the stage to be edited.
+     * @param dateSP The day of the planned start date.
+     * @param monthSP The month of the planned start date
+     * @param yearSP The year of the planned start date.
+     * @param dateSR The day of the real start date.
+     * @param monthSR The month of the real start date.
+     * @param yearSR The year of the real start date.
+     * @return True if the stage was edited successfully, false otherwise.
+     */
     public boolean editStage(int stageOption, int dateSP, int monthSP, int yearSP, int dateSR, int monthSR, int yearSR){
         boolean ind = false;
 
@@ -265,6 +274,22 @@ public class Stage {
         
         return ind;
 
+    }
+
+    /**
+     * Retrieves the lessons learned in all the capsules of the project stage.
+     * @return A string with the lessons learned in all the capsules of the project stage.
+     */
+    public String gLessons(){
+        String msg = "" ;
+
+        for (int i=0; i<50; i++) {
+            if(listOfCapsules[i] != null){
+                msg += listOfCapsules[i].getLessonLearned() +"\n";
+            }
+        }
+
+        return msg;
     }
     
        
