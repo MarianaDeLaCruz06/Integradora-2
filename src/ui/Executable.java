@@ -39,7 +39,7 @@ public class Executable {
             System.out.println("4. Register capsules");
             System.out.println("5. Approbate capsules");
             System.out.println("6. Publicate capsules");
-            System.out.println("7. Other funcions");
+            System.out.println("7. Other funtions");
             System.out.println("8. Exit");
 
             System.out.print("Select an option: ");
